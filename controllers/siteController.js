@@ -6,9 +6,9 @@ const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/pr
     
 router.get('/', function (req, res) {
     // Write code to connect to database and return posts
-
+    console.log(mongoConnection);
     MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('post').find({});
+        const cursor = db.collection('posts').find({});
         cursor.toArray((error, posts) => {
             db.close();
             // res.json(posts);
