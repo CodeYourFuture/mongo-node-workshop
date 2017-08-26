@@ -11,5 +11,8 @@
     }, {
         "text": "Admin",
         "link": "/admin"
+    }, {
+        "text": "Follow me",
+        "link": "/follow"
     }
 ]
