@@ -37,7 +37,7 @@ router.get('/students/country/:id', (req, res, next) => {
 
 router.get('/posts', (req, res, next) => {
     MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('post').find({});
+        const cursor = db.collection('posts').find({});
         cursor.toArray((error, posts) => {
             db.close();
             res.json(posts);
