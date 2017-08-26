@@ -5,15 +5,13 @@ const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectId;
 router.use(bodyParser.json());
-
+const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
 const getStudents = (req, res)=>{
 
 }
 
 router.get('/students', (req, res) => {
-    const mongoConnection = 'mongodb://localhost:27017/profile';
-
-    MongoClient.connect(mongoConnection, (err, db) => {
+   MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('students').find({});
         cursor.toArray((error, students) => {
             db.close();
@@ -23,8 +21,6 @@ router.get('/students', (req, res) => {
 });
 router.get('/students/:id', (req, res)=>{
     const studentId = req.params.id;
-    const mongoConnection = 'mongodb://localhost:27017/profile';
-
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('students').find(ObjectID(studentId));
         cursor.toArray((error, students) => {
@@ -40,8 +36,6 @@ router.get('/students/country/:id', (req, res, next) => {
 });
 
 router.get('/posts', (req, res, next) => {
-    const mongoConnection = 'mongodb://localhost:27017/profile';
-
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('post').find({});
         cursor.toArray((error, posts) => {
@@ -54,8 +48,6 @@ router.get('/posts', (req, res, next) => {
 
 router.get('/posts/:id', (req, res,next) => {
     const postId = req.params.id;
-    const mongoConnection = 'mongodb://localhost:27017/profile';
-
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('post').find(ObjectID(postId));
         cursor.toArray((error, posts) => {
