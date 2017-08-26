@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const exphbs  = require('express-handlebars');
 
+
 const siteController = require('./controllers/siteController');
 const apiController = require('./controllers/apiController');
+
+
 
 // Then these two lines after you initialise your express app 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
