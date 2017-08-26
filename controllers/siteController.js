@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient =process.env.MONGODB_URI || require('mongodb').MongoClient;
 
 //router.get('/', function (req, res) {
     // const filePath = __dirname + '/../data/posts.json';
