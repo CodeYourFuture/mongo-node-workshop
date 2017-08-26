@@ -1,8 +1,8 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
-const MongoClient =process.env.MONGODB_URI || require('mongodb').MongoClient;
-
+const MongoClient = require('mongodb').MongoClient;
+                               
 //router.get('/', function (req, res) {
     // const filePath = __dirname + '/../data/posts.json';
     // const callbackFunction = function(error, file) {
@@ -28,7 +28,7 @@ router.get('/', function (req, res) {
     
         // Write code to connect to database and return posts
     
-        const mongoConnection = 'mongodb://localhost:27017/profile';
+        const mongoConnection = process.env.MONGODB_URI ||'mongodb://localhost:27017/profile';
     
         MongoClient.connect(mongoConnection, (err, db) => {
     
