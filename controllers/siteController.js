@@ -6,7 +6,7 @@ const ObjectID = require('mongodb').ObjectID;
 
 
 router.get('/', function (req, res) {
-    const mongoConnection = 'mongodb://localhost:27017/profile';
+    const mongoConnection = process.env.MONGODB_URI|| 'mongodb://localhost:27017/profile';
 
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection("posts").find({});
