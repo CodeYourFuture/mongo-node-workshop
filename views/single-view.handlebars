@@ -1,12 +1,10 @@
-{{#each posts}}
     <div class="post-preview">
-        <a href="/post-{{this._id}}">
             <h2 class="post-title">
-                {{this.title}}
+                {{post.title}}
             </h2>
+            <hr />
             <h3 class="post-subtitle">
-                {{this.summary}}
+                {{post.content}}
             </h3>
         </a>
     </div>
-{{/each}}
