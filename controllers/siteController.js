@@ -24,17 +24,18 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/post-:postId', function(req, res){
+router.get('/post-:postId', (req, res)=>{
     const postId = req.params.postId;
+
  MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('posts').find(ObjectId(postId));
         cursor.toArray((error, posts) => {
             db.close();
             // res.json(posts);
             res.render('single-post', {
-                title: "Won's profile",
+                title: post[0].title,
                 subheading: "A modern Website built in Node with Handlebars",
-                posts: posts[0]
+                post: posts[0]
             });
         });
     });
