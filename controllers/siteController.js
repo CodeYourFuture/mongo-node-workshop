@@ -62,7 +62,8 @@ router.get('/', function (req, res) {
         const postId=req.params.postid;
         MongoClient.connect(mongoConnection, (err, db) => {
             
-                    const cursor = db.collection('posts').find({_id:ObjectId(postId)});
+
+const cursor = db.collection('posts').find({_id:ObjectID(postId)});
             
                     cursor.toArray((error, posts) => {
             
