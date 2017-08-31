@@ -50,22 +50,16 @@ router.get('/', function (req, res) {
                 subheading: "A modern Website built in Node with Handlebars",
 
                 posts: posts
-
             });
-
         });
-
     });
-
 });
 
 router.get('/post-:postid', function (req, res) {
     const postId = req.params.postid;
+    const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';    
     MongoClient.connect(mongoConnection, (err, db) => {
-
-
         const cursor = db.collection('posts').find(ObjectID(postId));
-
         cursor.toArray((error, posts) => {
             db.close();
             res.render('single-view', {
