@@ -7,56 +7,47 @@ const ObjectID = require('mongodb').ObjectID;
 
 router.use(bodyParser.json());
 
-var connectFunction = function(){
-    
-}
-router.get('/students', (req, res) => {
-    const mongoConnection = 'mongodb://localhost:27017/profile';
+const dbClient = require('../helpers/dbClient.js');
 
-    MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('students').find({});
-        cursor.toArray((error, students) => {
-            db.close();
+var connectFunction = function () {
+
+}
+const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
+router.get('/students', (req, res) => {
+    const callBack = (error, students) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
             res.json(students);
-        });
-    });
+        }
+    }
+    dbClient.getFromDatabase({}, "students", callBack)
 });
 
 router.get('/students/:id', (req, res) => {
-    const mongoConnection = 'mongodb://localhost:27017/profile';
     const studentId = req.params.id;
-    MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('students').find({ _id: ObjectID(studentId) });
-        cursor.toArray((error, students) => {
-            db.close();
+    const callBack = (error, students) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
             res.json(students[0]);
-        });
-    });
+        }
+    }
+    dbClient.getFromDatabase(ObjectID(studentId), "students", callBack)
 });
 
 router.get('/posts', (req, res, next) => {
-    // const filePath = __dirname + '/../data/posts.json';
-    // const callbackFunction = function (error, file) {
-    //     if (error) {
-    //         return next(error);
-    //     }
-    //     // we call .toString() to turn the file buffer to a String
-    //     const fileData = file.toString();
-    //     // we use JSON.parse to get an object out the String
-    //     const postsJson = JSON.parse(fileData);
-    //     res.json(postsJson);
-    // };
-    // fs.readFile(filePath, callbackFunction);
-    const mongoConnection = 'mongodb://localhost:27017/profile';
-    //const studentId = req.params.id;
-    MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('posts').find({ });
-        cursor.toArray((error, posts) => {
-            db.close();
+    const callBack = (error, posts) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
             res.json(posts);
-        });
-    });
-
+        }
+    }
+    dbClient.getFromDatabase({}, "posts", callBack)
 });
 
 router.post('/posts', (req, res) => {
