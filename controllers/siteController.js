@@ -71,7 +71,7 @@ const cursor = db.collection('posts').find({_id:ObjectID(postId)});
                         db.close(); 
                         res.render('single-view', {
             
-                            title: "Michael's profile",
+                            title: posts.title,
             
                             subheading: "A modern Website built in Node with Handlebars",
             
