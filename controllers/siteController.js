@@ -66,7 +66,6 @@ router.get('/post-:postid', function (req, res) {
                 title: posts[0].title,
                 subheading: "A modern Website built in Node with Handlebars",
                 post: posts[0]
-
             });
         });
     });
