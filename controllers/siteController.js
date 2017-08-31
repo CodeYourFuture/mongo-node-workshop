@@ -56,6 +56,32 @@ router.get('/', function (req, res) {
     
     });
 
+    router.get('/post/:postid', function (req, res) {
+        const postId=req.params.postid;
+        MongoClient.connect(mongoConnection, (err, db) => {
+            
+                    const cursor = db.collection('posts').find({_id:ObjectId(postId)});
+            
+                    cursor.toArray((error, posts) => {
+            
+                        db.close(); 
+                        res.render('single-view', {
+            
+                            title: "Michael's profile",
+            
+                            subheading: "A modern Website built in Node with Handlebars",
+            
+                            post: post[0]
+            
+                        });
+            
+                    });
+            
+                });
+
+    });
+
+
 router.get('/my-cv', function (req, res) {
     res.render('my-cv');
 });
