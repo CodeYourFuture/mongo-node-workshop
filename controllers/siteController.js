@@ -56,7 +56,7 @@ router.get('/', function (req, res) {
     
     });
 
-    router.get('/post/:postid', function (req, res) {
+    router.get('/post-:postid', function (req, res) {
         const postId=req.params.postid;
         MongoClient.connect(mongoConnection, (err, db) => {
             
