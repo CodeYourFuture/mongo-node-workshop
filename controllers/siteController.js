@@ -1,9 +1,10 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
+const ObjectID = require('mongodb').ObjectID;
 
 const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+
                                
 //router.get('/', function (req, res) {
     // const filePath = __dirname + '/../data/posts.json';
