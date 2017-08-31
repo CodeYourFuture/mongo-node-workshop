@@ -63,9 +63,9 @@ router.get('/post-:postid', function (req, res) {
         cursor.toArray((error, posts) => {
             db.close();
             res.render('single-view', {
-                title: posts.title,
+                title: posts[0].title,
                 subheading: "A modern Website built in Node with Handlebars",
-                post: posts[1]
+                post: posts[0]
 
             });
         });
