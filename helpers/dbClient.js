@@ -1,6 +1,6 @@
-const mongoConnection = "mongodb://127.0.0.1:27017/profile";
+const mongoConnection = process.env.Mongo_URL || "mongodb://127.0.0.1:27017/profile";
 
-const {MongoClient} = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 
 
