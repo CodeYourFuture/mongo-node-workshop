@@ -74,7 +74,7 @@ const cursor = db.collection('posts').find({_id:ObjectID(postId)});
             
                             subheading: "A modern Website built in Node with Handlebars",
             
-                            post: post[0]
+                            post: posts[0]
             
                         });
             
