@@ -1,12 +1,11 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
-const ObjectID = require('mongodb').ObjectID;
+const { ObjectID } = require('mongodb');
 
+const dbClient = require('../helpers/dbClient.js');
 
-const dbClient=require('../helpers/dbClient.js');
-
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
     const callBack = (error, posts) => {
         if (error) {
             res.sendStatus(500)
@@ -19,13 +18,11 @@ router.get('/', function (req, res) {
             });
         }
     }
-    dbClient.getFromDatabase({},"posts", callBack)
+    dbClient.getFromDatabase({}, "posts", callBack)
 
 });
 
-
-
-router.get('/post-:postid', function (req, res) {
+router.get('/post-:postid', (req, res) => {
     const postId = req.params.postid;
     const callBack = (error, posts) => {
         if (error) {
@@ -39,21 +36,21 @@ router.get('/post-:postid', function (req, res) {
             });
         }
     }
-    dbClient.getFromDatabase(ObjectID(postId),"posts", callBack)
-
+    dbClient.getFromDatabase(ObjectID(postId), "posts", callBack)
 });
 
-
-router.get('/my-cv', function (req, res) {
+router.get('/my-cv', (req, res) => {
     res.render('my-cv');
 });
 
-router.get('/admin', function (req, res) {
+router.get('/admin', (req, res) => {
     res.render('admin');
 });
 
-router.get('/contact', function (req, res) {
+router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
-module.exports = router;
+module.exports = {
+    router
+};

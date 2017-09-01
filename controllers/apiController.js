@@ -2,17 +2,12 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+const { ObjectID } = require('mongodb');
 
 router.use(bodyParser.json());
 
 const dbClient = require('../helpers/dbClient.js');
 
-var connectFunction = function () {
-
-}
-const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
 router.get('/students', (req, res) => {
     const callBack = (error, students) => {
         if (error) {
@@ -55,4 +50,6 @@ router.post('/posts', (req, res) => {
     res.status(500).send('not implemented');
 });
 
-module.exports = router;
+module.exports = {
+    router
+};
