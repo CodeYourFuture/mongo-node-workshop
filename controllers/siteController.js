@@ -4,9 +4,9 @@ const router = express.Router();
 const {ObjectId} = require('mongodb');
 const dbClient = require('../helpers/dbClient');
 const MongoClient = require('mongodb').MongoClient;
-const mongoConnection = process.env.MONGO_URI || 'mongodb://localhost:27017/profile';
+const mongoConnection = process.env.MONGO_URI || 'mongodb://localhost:3000/profile';
 
-// router.get('/', function (req, res) {
+// router.get('/', function (req, res) { 'mongodb://localhost:27017/profile';
 
 router.get('/', (req, res)=> {
     const callback = (error, posts) => {
