@@ -2,7 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const {objectID} = require('mongodb');
+const ObjectID = require('mongodb').ObjectID;
 const dbClient = require('../helpers/dbClient');
 const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
 
@@ -29,7 +29,7 @@ router.get('/post-:postId', (req, res) => {
         });
     }
     dbClient.getPosts({
-        _id: objectID(postId)
+        _id: ObjectID(postId)
     }, callback);
 });
 
