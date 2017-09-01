@@ -4,7 +4,7 @@ const router = express.Router();
 const {ObjectId} = require('mongodb');
 const dbClient = require('../helpers/dbClient');
 const MongoClient = require('mongodb').MongoClient;
-const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
+const mongoConnection = process.env.MONGO_URL || 'mongodb://localhost:27017/profile';
 
 // router.get('/', function (req, res) {
 
