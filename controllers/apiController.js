@@ -50,6 +50,4 @@ router.post('/posts', (req, res) => {
     res.status(500).send('not implemented');
 });
 
-module.exports = {
-    router
-};
+module.exports =router;
