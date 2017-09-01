@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 
 });
 
-router.get('/post-:postid', (req, res) => {
+router.get('/post/:postid', (req, res) => {
     const postId = req.params.postid;
     const callBack = (error, posts) => {
         if (error) {
@@ -51,4 +51,4 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
-module.exports = router;
+module.exports =router;
