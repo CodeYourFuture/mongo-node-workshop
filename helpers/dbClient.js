@@ -2,7 +2,7 @@
 
 
 const {MongoClient} = require('mongodb');
-const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
+const mongoConnection = process.env.MONGO_URL || 'mongodb://localhost:27017/profile';
 
 const getPosts = (query, successCallback) => {
 
@@ -17,4 +17,6 @@ const getPosts = (query, successCallback) => {
 };
 
 
-module.exports= {getPosts};
+module.exports= {
+    getPosts
+};
