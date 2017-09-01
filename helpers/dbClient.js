@@ -2,7 +2,7 @@
 
 
 const {MongoClient} = require('mongodb');
-const mongoConnection = process.env.MONGO_URI || 'mongodb://localhost:3000/profile';
+const mongoConnection = process.env.MONGO_URI || 'mongodb://localhost:27017/profile';
 
 const getPosts = (query, successCallback) => {
 
