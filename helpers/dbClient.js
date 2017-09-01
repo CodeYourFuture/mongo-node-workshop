@@ -10,7 +10,6 @@ const getPosts = (query, successCallback) => {
         const cursor = db.collection('posts').find(query);
         cursor.toArray((error, posts) => {
             db.close();
-            // res.json(posts);
             successCallback(error, posts);
         });
     });
