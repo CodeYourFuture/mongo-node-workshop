@@ -2,7 +2,8 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const { ObjectID } = require('mongodb');
-const dbClient = require ('../helpers/dbClient');
+const dbClient = require('../helpers/dbClient');
+const sortFunctionality = require('../helpers/sortFunctionality');
 
 router.get('/', function (req, res) {
     const callback = (error, posts) => {
@@ -29,6 +30,17 @@ router.get('/post-:postId', function (req, res) {
         _id: ObjectID(postId)
     }, callback);
 });
+
+
+router.get('/newestPosts', function (req, res) {        
+        const callback = (error, posts) => {
+            res.render('index', {
+                title: posts.title,
+                posts: posts
+            });
+        }
+        sortFunctionality.sortPosts({}, callback);
+    });
 
 
 router.get('/my-cv', function (req, res) {
