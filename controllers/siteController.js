@@ -2,7 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const {ObjectId} = require('mongodb');
-const dbClient = require('../helpers/dbClient.js');
+const dbClient = require('../helpers/dbClient');
 const MongoClient = require('mongodb').MongoClient;
 const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
 
