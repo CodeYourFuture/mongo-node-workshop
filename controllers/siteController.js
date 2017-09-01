@@ -34,7 +34,7 @@ router.get('/post-:postId', function (req, res) {
 
 router.get('/newestPosts', function (req, res) {        
         const callback = (error, posts) => {
-            res.render('index', {
+            res.render('singleview', {
                 title: posts.title,
                 posts: posts
             });
