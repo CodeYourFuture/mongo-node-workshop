@@ -7,6 +7,19 @@ const ObjectID = require('mongodb').ObjectID;
 
 router.use(bodyParser.json());
 
+
+router.get('/students', (req, res) => {
+
+    const mongoConnection = 'mongodb://localhost:27017/profile';
+    MongoClient.connect(mongoConnection, (err, db) => {
+        const cursor = db.collection('students').find({});
+        cursor.toArray((error, students) => {
+            db.close();
+            res.json(students);
+        });
+    });
+});
+
 router.get('/students/:studentid', (req, res) => {
     const studentID = req.params.studentid;
     console.log(studentID);
@@ -21,12 +34,13 @@ router.get('/students/:studentid', (req, res) => {
     });
 });
 
+
 router.get('/students/country/:country', (req, res) => {
     const studentsdefinedbyCountry = req.params.country;
     const mongoConnection = 'mongodb://localhost:27017/profile';
 
     MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('students').find({"Country":studentsdefinedbyCountry});
+        const cursor = db.collection('students').find({ "Country": studentsdefinedbyCountry });
         cursor.toArray((error, studentsdefinedbyCountry) => {
             db.close();
 
@@ -37,22 +51,21 @@ router.get('/students/country/:country', (req, res) => {
 
 });
 
-
-        router.get('/posts', (req, res, next) => {
-            const mongoConnection = 'mongodb://localhost:27017/profile';
-            MongoClient.connect(mongoConnection, (err, db) => {
-                const cursor = db.collection('posts').find({});
-                cursor.toArray((error, posts) => {
-                    db.close();
-                    res.json(posts);
-                });
-            });
-
+router.get('/posts', (req, res, next) => {
+    const mongoConnection = 'mongodb://localhost:27017/profile';
+    MongoClient.connect(mongoConnection, (err, db) => {
+        const cursor = db.collection('posts').find({});
+        cursor.toArray((error, posts) => {
+            db.close();
+            res.json(posts);
         });
+    });
 
-        router.post('/posts', (req, res) => {
-            console.log(req.body);
-            res.status(500).send('not implemented');
-        });
+});
 
-        module.exports = router;
+router.post('/posts', (req, res) => {
+    console.log(req.body);
+    res.status(500).send('not implemented');
+});
+
+module.exports = router;
