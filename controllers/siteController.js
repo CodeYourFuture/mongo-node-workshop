@@ -1,26 +1,49 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
+const { ObjectID } = require('mongodb');
+const dbClient = require('../helpers/dbClient');
+const sortFunctionality = require('../helpers/sortFunctionality');
+
+
 
 router.get('/', function (req, res) {
-    const filePath = __dirname + '/../data/posts.json';
-    const callbackFunction = function(error, file) {
-        if(error) {
-            return next(error);
-        }
-        // we call .toString() to turn the file buffer to a String
-        const fileData = file.toString();
-        // we use JSON.parse to get an object out the String
-        const postsJson = JSON.parse(fileData);
-        // send the json to the Template to render
+    
+    const callback = (error, posts) => {
         res.render('index', {
-          title: "Michael's profile",
-          subheading: "A modern Website built in Node with Handlebars",
-          posts: postsJson
+            title: "Etza's profile",
+            subheading: "A modern site driven by a database",
+            posts: posts
         });
-    };
-    fs.readFile(filePath, callbackFunction);
+    }
+    dbClient.getPosts({}, callback);
 });
+
+router.get('/post-:postId', function (req, res) {
+    const postId = req.params.postId;
+
+    const callback = (error, posts) => {
+        res.render('single-view', {
+            title: posts[0].title,
+            subheading: "A modern site driven by a database",
+            post: posts[0]
+        });
+    }
+    dbClient.getPosts({
+        _id: ObjectID(postId)
+    }, callback);
+});
+
+
+router.get('/newestPosts', function (req, res) {        
+        const callback = (error, posts) => {
+            res.render('posts', {
+                title: posts.title,
+                posts: posts
+            });
+        }
+        sortFunctionality.sortPosts({}, callback);
+    });
 
 
 router.get('/my-cv', function (req, res) {
