@@ -2,8 +2,9 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+const { MongoClient, ObjectID } = require('mongodb');
+const dbClient = require('../helpers/dbClient');
+
 
 router.use(bodyParser.json());
 
@@ -23,6 +24,8 @@ const connectAndFindAll = function (collection, cb) {
     }
     )
 };
+
+
 // To do something with the information returned from Mongo
 
 router.get('/students', (req, res, next) => {

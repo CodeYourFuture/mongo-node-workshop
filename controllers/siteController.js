@@ -5,7 +5,10 @@ const { ObjectID } = require('mongodb');
 const dbClient = require('../helpers/dbClient');
 const sortFunctionality = require('../helpers/sortFunctionality');
 
+
+
 router.get('/', function (req, res) {
+    
     const callback = (error, posts) => {
         res.render('index', {
             title: "Etza's profile",

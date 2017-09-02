@@ -6,13 +6,15 @@ const { MongoClient } = require('mongodb');
 
 const getPosts = (query, successCallback) => {
     MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection("posts").find(query);
-        cursor.toArray((error, posts) => {
+        const cursor = db.collection('posts').find({});
+        cursor.toArray((error, collection) => {
             db.close();
-            successCallback(error, posts);
+            successCallback(error, collection);
         });
     });
 };
+
+
 
 module.exports = {
     getPosts 
