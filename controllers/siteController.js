@@ -1,38 +1,54 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
+const { ObjectID } = require('mongodb');
 
-router.get('/', function (req, res) {
-    const filePath = __dirname + '/../data/posts.json';
-    const callbackFunction = function(error, file) {
-        if(error) {
-            return next(error);
+const dbClient = require('../helpers/dbClient.js');
+
+router.get('/', (req, res) => {
+    const callBack = (error, posts) => {
+        if (error) {
+            res.sendStatus(500)
         }
-        // we call .toString() to turn the file buffer to a String
-        const fileData = file.toString();
-        // we use JSON.parse to get an object out the String
-        const postsJson = JSON.parse(fileData);
-        // send the json to the Template to render
-        res.render('index', {
-          title: "Michael's profile",
-          subheading: "A modern Website built in Node with Handlebars",
-          posts: postsJson
-        });
-    };
-    fs.readFile(filePath, callbackFunction);
+        else {
+            res.render('index', {
+                title: "MongoDB profile",
+                subheading: "A modern Website built in Node with Handlebars",
+                posts: posts
+            });
+        }
+    }
+    dbClient.getFromDatabase({}, "posts", callBack)
+
 });
 
+router.get('/post/:postid', (req, res) => {
+    const postId = req.params.postid;
+    const callBack = (error, posts) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
+            res.render('single-post', {
+                title: posts[0].title,
+                subheading: "A modern Website built in Node with Handlebars",
+                post: posts[0]
+            });
+        }
+    }
+    dbClient.getFromDatabase(ObjectID(postId), "posts", callBack)
+});
 
-router.get('/my-cv', function (req, res) {
+router.get('/my-cv', (req, res) => {
     res.render('my-cv');
 });
 
-router.get('/admin', function (req, res) {
+router.get('/admin', (req, res) => {
     res.render('admin');
 });
 
-router.get('/contact', function (req, res) {
+router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
-module.exports = router;
+module.exports =router;

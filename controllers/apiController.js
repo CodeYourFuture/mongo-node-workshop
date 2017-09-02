@@ -2,22 +2,47 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
+const { ObjectID } = require('mongodb');
 
 router.use(bodyParser.json());
 
-router.get('/posts', (req, res, next) => {
-    const filePath = __dirname + '/../data/posts.json';
-    const callbackFunction = function(error, file) {
-        if(error) {
-            return next(error);
+const dbClient = require('../helpers/dbClient.js');
+
+router.get('/students', (req, res) => {
+    const callBack = (error, students) => {
+        if (error) {
+            res.sendStatus(500)
         }
-        // we call .toString() to turn the file buffer to a String
-        const fileData = file.toString();
-        // we use JSON.parse to get an object out the String
-        const postsJson = JSON.parse(fileData);
-        res.json(postsJson);
-    };
-    fs.readFile(filePath, callbackFunction);
+        else {
+            res.json(students);
+        }
+    }
+    dbClient.getFromDatabase({}, "students", callBack)
+});
+
+router.get('/students/:id', (req, res) => {
+    const studentId = req.params.id;
+    const callBack = (error, students) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
+            res.json(students[0]);
+        }
+    }
+    dbClient.getFromDatabase(ObjectID(studentId), "students", callBack)
+});
+
+router.get('/posts', (req, res, next) => {
+    const callBack = (error, posts) => {
+        if (error) {
+            res.sendStatus(500)
+        }
+        else {
+            res.json(posts);
+        }
+    }
+    dbClient.getFromDatabase({}, "posts", callBack)
 });
 
 router.post('/posts', (req, res) => {
@@ -25,4 +50,4 @@ router.post('/posts', (req, res) => {
     res.status(500).send('not implemented');
 });
 
-module.exports = router;
+module.exports =router;
