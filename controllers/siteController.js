@@ -1,26 +1,66 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
+const Post = require('../models/Post.js');
+const mongoose = require('mongoose');
+const formidable = require('express-formidable');
 
-router.get('/', function (req, res) {
-    const filePath = __dirname + '/../data/posts.json';
-    const callbackFunction = function(error, file) {
-        if(error) {
-            return next(error);
-        }
-        // we call .toString() to turn the file buffer to a String
-        const fileData = file.toString();
-        // we use JSON.parse to get an object out the String
-        const postsJson = JSON.parse(fileData);
-        // send the json to the Template to render
+const dbClient = require('../helpers/dbClient');
+const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
+
+router.use(formidable());
+router.get('/', (req, res) => {
+    const callback = (error, posts) => {
         res.render('index', {
-          title: "Michael's profile",
-          subheading: "A modern Website built in Node with Handlebars",
-          posts: postsJson
+            title: "Yohannes's profile",
+            subheading: "A Great Website driven by a database",
+            posts: posts
         });
     };
-    fs.readFile(filePath, callbackFunction);
+    mongoose.connect(mongoConnection);
+    Post.find({}, callback);
 });
+
+router.get('/post-:postId', (req, res) => {
+    const postId = req.params.postId;
+
+    const callback = (error, post) => {
+
+        res.render('single-post', {
+            title: post.title,
+            subheading: "A Great Website driven by a database",
+            post: post
+        });
+    }
+    // dbClient.getPosts({
+    //     _id: ObjectID(postId)
+    // }, callback);
+
+    mongoose.connect(mongoConnection);
+    Post.findById(postId, callback);
+});
+
+// const post = req.fields;
+router.post('/save-post', (req, res) => {
+
+    const callback = (error, post) => {
+        if (error) {
+            console.error(error);
+            return res.redirect('/error');
+        }
+
+        console.log('post saved successfully', post);
+        res.redirect('/');
+    }
+    mongoose.connect(mongoConnection);
+    // This is using the Model to create an object
+    // based on the fields submitted from the form
+    const newPost = new Post(req.fields);
+    newPost.save(callback);
+});
+
 
 
 router.get('/my-cv', function (req, res) {
