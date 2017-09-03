@@ -6,9 +6,12 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 router.use(bodyParser.json());
 const mongoConnection = process.env.MONGODB_URI || 'mongodb://localhost:27017/profile';
+const mongoose = require('mongoose');
+const Post = require('../models/Post.js');
+
 
 router.get('/students', (req, res) => {
-   MongoClient.connect(mongoConnection, (err, db) => {
+    MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('students').find({});
         cursor.toArray((error, students) => {
             db.close();
@@ -16,7 +19,7 @@ router.get('/students', (req, res) => {
         });
     });
 });
-router.get('/students/:id', (req, res)=>{
+router.get('/students/:id', (req, res) => {
     const studentId = req.params.id;
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('students').find(ObjectID(studentId));
@@ -42,7 +45,7 @@ router.get('/posts', (req, res, next) => {
 });
 
 
-router.get('/posts/:id', (req, res,next) => {
+router.get('/posts/:id', (req, res, next) => {
     const postId = req.params.id;
     MongoClient.connect(mongoConnection, (err, db) => {
         const cursor = db.collection('post').find(ObjectID(postId));
@@ -60,14 +63,24 @@ router.get('/posts/:id', (req, res,next) => {
 
 
 router.post('/posts', (req, res) => {
-    console.log(req.body);
+    const callback = (error, post) => {
+        if (error) {
+            console.error(error);
+            return res.sendStatus(500);
+        }
+
+        console.log('post saved successfully', post);
+        res.send(post);
+    }
+
     const mongoConnection = 'mongodb://localhost:27017/profile';
-    MongoClient.connect(mongoConnection, (err, db) => {
-        const cursor = db.collection('posts').insert(req.body,
-        (err, result) => {
-            res.sendStatus(200)
-        });
-    });
+    mongoose.connect(mongoConnection);
+    // This is using the Model to create an object
+    // based on the fields submitted from the form
+    const newPost = new Post(req.body);
+    newPost.save(callback);
 });
+
+
 
 module.exports = router;

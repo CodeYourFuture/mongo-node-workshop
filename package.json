@@ -4,7 +4,7 @@
   "description": "This is the exercise that accompanies the first Node class. Based on the Node Girls Workshop https://github.com/node-girls/express-workshop",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon --inspect server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,8 +20,10 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "express-formidable": "^1.0.0",
     "express-handlebars": "^3.0.0",
-    "mongodb": "^2.2.31"
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.9"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
